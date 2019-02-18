@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body onload="check()">
+    <script type="text/javascript">
+        function check()
+        {
+            axios.get('http://localhost:3007',{
+                headers:{
+                    'x-access-token':localStorage.getItem('token')
+                }
+            })
+            .then((response)=>{
+                if(response.data.status!=200||response.data.msg!='success')
+                {
+                    alert('you are not allowed to be here')
+                    location.href='login.htm'
+                }
+
+            })
+            .catch((err)=>{
+                location.href='login.htm'
+                console.log(err)
+            })
+        }
+    </script>
+
+
+    <h1>hello world</h1>
+    <button type="button" onclick="logout()">log out</button>
+    <script type="text/javascript">
+        function logout()
+        {
+            localStorage.setItem('token',null)
+            location.href='login.htm'
+        }
+    </script>
+</body>
+</html>

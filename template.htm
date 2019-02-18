@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Order, Portal!</title>
+    <style>
+       .I
+        {
+           height: 100px;
+           width: 200px;
+        } 
+        .switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+    </style>
+  </head>
+  <body onload="check()">
+
+
+      <script type="text/javascript">
+        function check()
+        {
+            axios.get('http://localhost:3007',{
+                headers:{
+                    'x-access-token':localStorage.getItem('token')
+                }
+            })
+            .then((response)=>{
+                if(response.data.status!=200||response.data.msg!='success')
+                {
+                    alert('you are not allowed to be here')
+                    location.href='login.htm'
+                }
+
+            })
+            .catch((err)=>{
+                location.href='login.htm'
+                console.log(err)
+            })
+        }
+    </script>
+
+
+    <h1>Stoned, Santa!</h1>
+    <!-- <div class="row">
+        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+      </div> -->
+        <div style="margin-right:8px">
+        <table class="table table-hover table-bordered table-sm" >
+        <thead>
+          <tr>
+            <th scope="col">S.NO.</th>
+            <th scope="col">Type</th>
+            <!-- <th scope="col">Placed By</th>
+            <th scope="col">Telephone</th> -->
+            <th scope="col">Photo</th>
+            <th scope="col">Specification</th>
+            <th scope="col">Selling Price</th>
+            <th scope="col">Cost Price</th>
+            <th scope="col">Advance Paid</th>
+            <th scope="col">Shipping Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Buttons</th>
+          </tr>
+        </thead>
+        <form action='http://localhost:7019/order/submit'  method="post" enctype="multipart/form-data">
+        <tbody id="tbody1">
+            <tr>
+            <th scope="row">1</th>
+           <td>  <select size="1" id="row-1-ptype" name="ptype">
+              <option value="String Art" selected="selected">
+                  String Art
+              </option>
+              <option value="Portrait">
+                Portrait
+              </option>
+          </select></td><!-- 
+          <td > <input type="text" id="row-1-placedby" name="placedby"/> </td>
+          <td > <input type="tel" id="row-1-telephone" name="telephone" /> </td> -->
+           <td> <input type="file" id="row-1-photo" name="photo"> 
+            <br id="br1">
+            <br id ="br2">
+            <label class="switch">
+            <input id ="slider" type="checkbox" onclick="hideImageInput()" checked="true">
+            <span class="slider round"></span>
+             </label>
+            </td>
+           <td> <textarea id="row-1-specification" name="specification" placeholder="None" value="None"> </textarea> </td>
+           <td > <input type="number" id="row-1-sellingprice" name="sellingprice" required /> </td>
+           <td > <input type="number" id="row-1-advancepaid" name="costprice"  required/> </td>
+           <td > <input type="number" id="row-1-costprice" name="advancepaid"  required/> </td>"
+           <td> <input type="date" id="row-1-shippingdate" name="shippingdate"  required/> </td>
+           <td> <select size="1" id="row-1-status" name="status">
+            <option value="Placed" selected="selected">
+                Placed
+            </option>
+            <option value="Shipped">
+                Shipped
+            </option>
+            <option value="Reached">
+                Reached
+            </option>
+        </select> </td>
+        <td> <input type="submit" value="submit" name="submit"> </td>
+          </tr>
+        </form>
+        </tbody>
+        <tbody id="tbody2"> </tbody>
+      </table>
+    </div>
+    <button type="button" onclick="logout()">log out</button>
+    <script type="text/javascript">
+        function logout()
+        {
+            localStorage.setItem('token',null)
+            location.href='login.htm'
+        }
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" >
+
+$("form").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
+    $.ajax({
+        url: "http:localhost:7019/order/submit",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            Get();
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+function Delete(arg)
+{
+  var val=confirm("Surely , Delete this record??");
+  if (val==true)
+  {
+    axios.delete("http://localhost:7019/order/delete", { data: { _id: IDs[arg] } })
+    .then((response)=>{
+        Get();
+     })
+     .catch((error)=>{
+         console.log(error);
+     })
+  }
+
+}
+
+let IDs =[];
+  function Get(){
+   axios.get('http://localhost:7019/employee/order')
+  .then(function (response) {
+    document.getElementById("tbody2").innerHTML="";
+    for(let i=0;i<response.data.length;i++)
+    {
+        
+        IDs.push(response.data[i]._id);
+        if(response.data[i].status=="Placed")
+        {
+            document.getElementById("tbody2").innerHTML+=`<tr>
+            <th scope="row">`+(i+2)+`</th>
+            <td>`+response.data[i].type+`</td>
+            <td colspan=1> <image src="uploads/`+response.data[i].image_id+`" class="I" alt="No img"> </image> </td>
+            <td>`+response.data[i].specification+`</td>
+            <td>`+response.data[i].sellingprice+`</td>
+            <td>`+response.data[i].costprice+`</td>
+            <td>`+response.data[i].advancepaid+`</td>
+            <td>`+response.data[i].shippingdate+`</td>
+            <td> <select size="1" id="row-3-status" name="row-3-status">
+              <option value="Placed" selected="selected">
+                  Placed
+              </option>
+              <option value="Shipped">
+                  Shipped
+              </option>
+              <option value="Reached">
+                  Reached
+              </option>
+          </select> </td>
+          <td> <button id="row-`+(i+1)+`-delete" onclick="Delete(`+i+`)"> Delete </button> 
+            <br>
+            <button id="row-`+(i+1)+`-update" onclick="Delete(`+i+`)"> Update </button> 
+             </td>
+          </tr>`
+        }
+        else if(response.data[i].status=="Shipped")
+        {
+            document.getElementById("tbody2").innerHTML+=`<tr class="table-warning">
+                <th scope="row">`+(i+2)+`</th>
+            <td>`+response.data[i].type+`</td>
+            <td colspan=1> <image src="uploads/`+response.data[i].image_id+`" class="I" alt="No img"> </image> </td>
+            <td>`+response.data[i].specification+`</td>
+            <td>`+response.data[i].sellingprice+`</td>
+            <td>`+response.data[i].costprice+`</td>
+            <td>`+response.data[i].advancepaid+`</td>
+            <td>`+response.data[i].shippingdate+`</td>
+            <td> <select size="1" id="row-3-status" name="row-3-status">
+              <option value="Placed" >
+                  Placed
+              </option>
+              <option value="Shipped" selected="selected">
+                  Shipped
+              </option>
+              <option value="Reached">
+                  Reached
+              </option>
+          </select> </td>
+          <td> <button id="row-`+(i+1)+`-delete" onclick="Delete(`+i+`)"> Delete </button>
+            <br> 
+            <button id="row-`+(i+1)+`-update" onclick="Delete(`+i+`)"> Update </button> </td>
+          </tr>`
+        }
+          else if(response.data[i].status=="Reached")
+        {
+            document.getElementById("tbody2").innerHTML+=`<tr class="table-success">
+                <th scope="row">`+(i+2)+`</th>
+            <td>`+response.data[i].type+`</td>
+            <td colspan=1> <image src="uploads/`+response.data[i].image_id+`" class="I" "alt="No img"> </image> </td>
+            <td>`+response.data[i].specification+`</td>
+            <td colspan="0.5">`+response.data[i].sellingprice+`</td>
+            <td colspan="0.5">`+response.data[i].costprice+`</td>
+            <td colspan="0.5">`+response.data[i].advancepaid+`</td>
+            <td>`+response.data[i].shippingdate+`</td>
+            <td> <select size="1" id="row-3-status" name="row-3-status">
+              <option value="Placed" >
+                  Placed
+              </option>
+              <option value="Shipped">
+                  Shipped
+              </option>
+              <option value="Reached" selected="selected">
+                  Reached
+              </option>
+          </select> </td>
+          <td> <button id="row-`+(i+1)+`-delete" onclick="Delete(`+i+`)"> Delete </button> 
+            <br>
+            <button id="row-`+(i+1)+`-update" onclick="Delete(`+i+`)"> Update </button>  </td>
+          </tr>`
+        }
+   
+    }
+
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+Get();
+
+function hideImageInput()
+{
+    var slider = document.getElementById("slider");
+    var img_inp= document.getElementById("row-1-photo");
+    if(slider.checked==false)
+    {
+        img_inp.style.display="none";
+        document.getElementById("br1").style.display="none";
+        document.getElementById("br2").style.display="none";
+    }
+
+    else
+    {
+        img_inp.style.display="";
+        document.getElementById("br1").style.display="";
+        document.getElementById("br2").style.display="";
+    }
+}
+    
+</script>  
+</html>
